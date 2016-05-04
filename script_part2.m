@@ -7,7 +7,6 @@ noises = {'a', 'b', 'c', 'd'};
 colors = {'r', 'b', 'g', 'c'};
 forms = {'x', '*', '+', '.'};
 
-
 %% Evaluate Sequence 1
 load Sequence1Homographies
 
@@ -44,7 +43,6 @@ figure(2); hold on; grid on;
 xlim([1 size(Sequence2Homographies, 2)]);
 
 for noise = 1 : length(noises)
-
     results = zeros(size(Sequence2Homographies, 2), 1);
     for i = 1 : size(Sequence2Homographies, 2)
         str = num2str(i);
