@@ -1,13 +1,17 @@
-% Ricard's email: rprados@atc.udg.edu
-% VP Lab 4
-% Daudt
-% 21/04
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%                                                                     %%%
+%%% Description: VP Lab 4 SIFT                                          %%%
+%%%              Part 1 - Generate sequence 1                           %%%
+%%% Authors: Rodrigo Daubt and Jose Bernal                              %%%
+%%% Date: 21-04-2016                                                    %%%
+%%%                                                                     %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Generate Homography matrices
-
-clear all
-close all
-clc
+clear all;
+close all;
+clc;
 
 %% Load image
 
@@ -91,39 +95,34 @@ for i = 1:4
         
         % Save homography
         Sequence1Homographies(index).H = H;
-        
     end
 end
 
 % Save homographies
 save('Sequence1Homographies.mat','Sequence1Homographies');
 
-
-
-
 %% Test
 
-i = 13;
+i = 1;
 
-tform = fitgeotrans(ref_crop(1:2,:)',p_crop(1:2,:)','projective');
-ref = imref2d(size(crop));
+%tform = fitgeotrans(ref_crop(1:2,:)',p_crop(1:2,:)','projective');
+%ref = imref2d(size(crop));
 proj_image = imread(['SEQUENCE1/Image_' num2str(i,'%.2u') 'a.png']);
 
 
 H = Sequence1Homographies(i).H;
-p = [320,360,1]';
+p = [320, 360, 1]';
 
 figure(1);
 imshow(crop);
 hold on;
-scatter(p(1),p(2),'ro','linewidth',3);
+scatter(p(1), p(2), 'ro', 'linewidth', 3);
 
 pause(0.2)
 
 figure(2);
 imshow(proj_image);
 hold on;
-p2 = H*p;
-p2 = p2/p2(end);
-scatter(p2(1),p2(2),'ro','linewidth',3);
-
+p2 = H * p;
+p2 = p2 / p2(end);
+scatter(p2(1), p2(2), 'ro', 'linewidth', 3);

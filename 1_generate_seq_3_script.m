@@ -1,3 +1,14 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%                                                                     %%%
+%%% Description: VP Lab 4 SIFT                                          %%%
+%%%              Part 1 - Generate sequence 3                           %%%
+%%% Authors: Rodrigo Daubt and Jose Bernal                              %%%
+%%% Date: 21-04-2016                                                    %%%
+%%%                                                                     %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 clear all;
 close all;
 clc;
@@ -34,14 +45,10 @@ for i = range
     Sequence3Homographies(trans_idx).H = T;
     
     %saving the images
-    idx_str = num2str(trans_idx);
-    if trans_idx < 10
-        idx_str = strcat('0', idx_str);
-    end
-    imwrite(image, strcat('SEQUENCE3/Image_', idx_str, 'a.png'));
-    imwrite(imnoise(image, 'gaussian', 0, (3/255)^2), strcat('SEQUENCE3/Image_', idx_str, 'b.png'));
-    imwrite(imnoise(image, 'gaussian', 0, (6/255)^2), strcat('SEQUENCE3/Image_', idx_str, 'c.png'));
-    imwrite(imnoise(image, 'gaussian', 0, (18/255)^2), strcat('SEQUENCE3/Image_', idx_str, 'd.png'));
+    imwrite(image, strcat('SEQUENCE3/Image_', num2str(i,'%.2u'), 'a.png'));
+    imwrite(imnoise(image, 'gaussian', 0, (3/255)^2), strcat('SEQUENCE3/Image_', num2str(i,'%.2u'), 'b.png'));
+    imwrite(imnoise(image, 'gaussian', 0, (6/255)^2), strcat('SEQUENCE3/Image_', num2str(i,'%.2u'), 'c.png'));
+    imwrite(imnoise(image, 'gaussian', 0, (18/255)^2), strcat('SEQUENCE3/Image_', num2str(i,'%.2u'), 'd.png'));
     
     trans_idx = trans_idx + 1;
 end

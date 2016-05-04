@@ -1,8 +1,18 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%                                                                     %%%
+%%% Description: VP Lab 4 SIFT                                          %%%
+%%%              Part 2 - Evaluate SIFT                                 %%%
+%%% Authors: Rodrigo Daubt and Jose Bernal                              %%%
+%%% Date: 21-04-2016                                                    %%%
+%%%                                                                     %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 clc;
 close all;
 clear all;
 
-fig_counter = 1;
 noises = {'a', 'b', 'c', 'd'};
 colors = {'r', 'b', 'g', 'c'};
 forms = {'x', '*', '+', '.'};
@@ -16,7 +26,6 @@ figure(1); hold on; grid on;
 xlim([1 size(Sequence1Homographies, 2)]);
 
 for noise = 1 : length(noises)
-
     results = zeros(size(Sequence1Homographies, 2), 1);
     for i = 1 : size(Sequence1Homographies, 2)
         str = num2str(i);
@@ -61,7 +70,6 @@ for noise = 1 : length(noises)
 end
 
 %% Evaluate sequence 3
-
 load Sequence3Homographies
 
 I1 = imread('SEQUENCE3/Image_00a.png');
