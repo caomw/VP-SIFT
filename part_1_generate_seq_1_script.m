@@ -33,15 +33,15 @@ c_large = [751;751;1];
 %% Projective Homographies
 
 % amount of deformation -> 1 = no deformation
-z = [1.2  1.4  1    1;
-     1    1    1.2  1.4];
+z = [1.1  1.2  1.3  1.4  1    1    1    1;
+     1    1    1    1    1.1  1.2  1.3  1.4];
 
 % centre offsets for ref points - "8-neighbourhood" of centre
-c_os = [0  l(1)  l(1)  -l(1)  -l(1)  l(1)  -l(1)  0     0;
-        0  l(2)  -l(2)  -l(2)  l(2)  0     0      l(2)  -l(2)];
+c_os = [l(1)  l(1)  -l(1)  -l(1);
+        l(2)  -l(2)  -l(2)  l(2)];
 
 % Reference points in crop and large_crop
-ref_crop = ones(3,9);
+ref_crop = ones(3,4);
 for i = 1:2
     ref_crop(i,:) = c_os(i,:) + c_crop(i);
 end
@@ -49,53 +49,95 @@ end
 % Fix x and y because reasons
 ref_crop = [ref_crop(2,:);ref_crop(1,:);ref_crop(3,:)];
 
-p_crop = ones(3,9);
+p_crop = ones(3,4);
 ref = imref2d(size(crop));
 
 % For each case
-for i = 1:4
-    for j = 1:4
-        index = 4*(i-1) + j;
-        
-        zx1 = z(1,i);
-        zx2 = z(2,i);
-        zx = (zx1 + zx2)/2;
-        zy1 = z(1,j);
-        zy2 = z(2,j);
-        zy = (zy1 + zy2)/2;
-        
-        % Offset
-        k = [zy zy1  zy2  zy2  zy1  zy   zy   zy1   zy2;
-             zx  zx1  zx1  zx2  zx2  zx1  zx2  zx    zx];
-        os = k.*c_os;
-        
-        % Deformation points
-        for ii = 1:2
-            p_crop(ii,:) = os(ii,:) + c_crop(ii);
-        end
-%         figure;scatter(p_crop(1,:),p_crop(2,:))
-        
-        % Fix x and y because reasons
-        p_crop = [p_crop(2,:);p_crop(1,:);p_crop(3,:)];
-        
-        % Compute homography
-        tform = fitgeotrans(ref_crop(1:2,:)',p_crop(1:2,:)','projective');
-        H = tform.T';
-        
-        % Apply transformation and crop new image
-        proj_image = imwarp(crop,tform,'OutputView',ref);
-%         figure;imshow(proj_image);size(proj_image)
-        
-        % Save images
-        name = ['SEQUENCE1/Image_' num2str(index,'%.2u')];
-        imwrite(proj_image,[name 'a.png']);
-        imwrite(imnoise(proj_image,'gaussian',0,(3/255)^2),[name 'b.png']);
-        imwrite(imnoise(proj_image,'gaussian',0,(6/255)^2),[name 'c.png']);
-        imwrite(imnoise(proj_image,'gaussian',0,(18/255)^2),[name 'd.png']);
-        
-        % Save homography
-        Sequence1Homographies(index).H = H;
+for i = 1:8
+    index = i;
+
+    zx1 = z(1,i);
+    zx2 = z(2,i);
+    zx = (zx1 + zx2)/2;
+    zy1 = 1;
+    zy2 = 1;
+    zy = (zy1 + zy2)/2;
+
+    % Offset
+    k = [zy1  zy2  zy2  zy1;
+         zx1  zx1  zx2  zx2];
+    os = k.*c_os;
+
+    % Deformation points
+    for ii = 1:2
+        p_crop(ii,:) = os(ii,:) + c_crop(ii);
     end
+%     figure;scatter(p_crop(1,:),p_crop(2,:))
+
+    % Fix x and y because reasons
+    p_crop = [p_crop(2,:);p_crop(1,:);p_crop(3,:)];
+
+    % Compute homography
+    tform = fitgeotrans(ref_crop(1:2,:)',p_crop(1:2,:)','projective');
+    H = tform.T';
+
+    % Apply transformation and crop new image
+    proj_image = imwarp(crop,tform,'OutputView',ref);
+    figure;imshow(proj_image);size(proj_image)
+
+    % Save images
+    name = ['SEQUENCE1/Image_' num2str(index,'%.2u')];
+    imwrite(proj_image,[name 'a.png']);
+    imwrite(imnoise(proj_image,'gaussian',0,(3/255)^2),[name 'b.png']);
+    imwrite(imnoise(proj_image,'gaussian',0,(6/255)^2),[name 'c.png']);
+    imwrite(imnoise(proj_image,'gaussian',0,(18/255)^2),[name 'd.png']);
+
+    % Save homography
+    Sequence1Homographies(index).H = H;
+end
+
+% For each other case
+for i = 1:8
+    index = i + 8;
+
+    zx1 = 1;
+    zx2 = 1;
+    zx = (zx1 + zx2)/2;
+    zy1 = z(1,i);
+    zy2 = z(2,i);
+    zy = (zy1 + zy2)/2;
+
+    % Offset
+    k = [zy1  zy2  zy2  zy1;
+         zx1  zx1  zx2  zx2];
+    os = k.*c_os;
+
+    % Deformation points
+    for ii = 1:2
+        p_crop(ii,:) = os(ii,:) + c_crop(ii);
+    end
+%     figure;scatter(p_crop(1,:),p_crop(2,:))
+
+    % Fix x and y because reasons
+    p_crop = [p_crop(2,:);p_crop(1,:);p_crop(3,:)];
+
+    % Compute homography
+    tform = fitgeotrans(ref_crop(1:2,:)',p_crop(1:2,:)','projective');
+    H = tform.T';
+
+    % Apply transformation and crop new image
+    proj_image = imwarp(crop,tform,'OutputView',ref);
+    figure;imshow(proj_image);size(proj_image)
+
+    % Save images
+    name = ['SEQUENCE1/Image_' num2str(index,'%.2u')];
+    imwrite(proj_image,[name 'a.png']);
+    imwrite(imnoise(proj_image,'gaussian',0,(3/255)^2),[name 'b.png']);
+    imwrite(imnoise(proj_image,'gaussian',0,(6/255)^2),[name 'c.png']);
+    imwrite(imnoise(proj_image,'gaussian',0,(18/255)^2),[name 'd.png']);
+
+    % Save homography
+    Sequence1Homographies(index).H = H;
 end
 
 % Save homographies
@@ -103,7 +145,7 @@ save('Sequence1Homographies.mat','Sequence1Homographies');
 
 %% Test
 
-i = 1;
+i = 13;
 
 %tform = fitgeotrans(ref_crop(1:2,:)',p_crop(1:2,:)','projective');
 %ref = imref2d(size(crop));

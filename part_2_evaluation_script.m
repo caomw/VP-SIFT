@@ -32,7 +32,7 @@ for noise = 1 : length(noises)
     for i = 1 : size(Sequence1Homographies, 2)
         I2 = imread(strcat('SEQUENCE1/Image_', num2str(i,'%.2u'), noises{noise},'.png'));
 
-        results(i, :) = util.evaluate_normal_sift(I1, I2, Sequence3Homographies(i).H);
+        results(i, :) = util.evaluate_normal_sift(I1, I2, Sequence1Homographies(i).H);
     end
 
     style = strcat(forms{noise}, '-', colors{noise});
@@ -52,7 +52,7 @@ for noise = 1 : length(noises)
     for i = 1 : size(Sequence2Homographies, 2)
         I2 = imread(strcat('SEQUENCE2/Image_', num2str(i,'%.2u'), noises{noise},'.png'));
 
-        results(i, :) = util.evaluate_normal_sift(I1, I2, Sequence3Homographies(i).H);
+        results(i, :) = util.evaluate_normal_sift(I1, I2, Sequence2Homographies(i).H);
     end
 
     style = strcat(forms{noise}, '-', colors{noise});
