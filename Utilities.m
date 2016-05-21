@@ -19,12 +19,14 @@ function loc = evaluate_normal_sift(image1, image2, H)
 end
 
 function loc = evaluate_sift(I1, I2, H, is_one_scale)    
-    if ~is_one_scale
-        [f1, d1] = vl_sift(I1);
-        [f2, d2] = vl_sift(I2);
-    else
-        [f1, d1] = vl_sift(I1, 'Octaves', 1);
-        [f2, d2] = vl_sift(I2, 'Octaves', 1);
+    [f1, d1] = vl_sift(I1);
+    [f2, d2] = vl_sift(I2);
+    
+    if is_one_scale
+        f1(3, :) = 1;
+        f2(3, :) = 1;
+        [f1, d1] = vl_sift(I1, 'Octaves', 1, 'Frames', f1);
+        [f2, d2] = vl_sift(I2, 'Octaves', 1, 'Frames', f2);
     end
     
     matches = vl_ubcmatch(d1, d2);

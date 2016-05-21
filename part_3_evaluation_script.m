@@ -10,12 +10,9 @@ clc;
 
 util = Utilities;
 
-image1 = imread('SEQUENCE2/Image_00a.png');
-image2 = imread('SEQUENCE2/Image_01a.png');
-
 noises = {'a', 'b', 'c', 'd'};
 colors = {'r', 'b', 'g', 'c'};
-forms_1 = {'x', 'x', 'x', 'x'};
+forms_1 = {'+', '+', '+', '+'};
 forms_2 = {'--', '--', '--', '--'};
 
 %% Evaluate Sequence 1
@@ -26,8 +23,10 @@ I1 = single(rgb2gray(I1));
 
 figure(1); hold on; grid on;
 title('Accuracy of SIFT in Seq. 1');
-xlabel('Sequence'); ylabel('Percentage of correct matches');
+xlabel('Projection'); ylabel('Percentage of correct matches');
 xlim([1 size(Sequence1Homographies, 2)]); ylim([0.7 1]);
+set(gca, 'xTick', 1:16);
+set(gca, 'xTickLabel', {'110%','120%','130', '140%', '110%', '120%', '130%', '140%', '110%', '120%', '130%', '140%', '110%', '120%', '130%', '140%'});
 
 for noise = 1 : length(noises)
     results = zeros(size(Sequence1Homographies, 2), 2);
@@ -48,7 +47,15 @@ for noise = 1 : length(noises)
     plot(1:size(Sequence1Homographies, 2), results(:, 1), style_1);
     plot(1:size(Sequence1Homographies, 2), results(:, 2), style_2);
 end
-legend('No noise', 'N(0, 3)', 'N(0, 6)', 'N(0, 18)', 'Location', 'southeast');
+legend('No noise standard', 'No noise modified', 'N(0, 3) standard', 'N(0, 3) modified', 'N(0, 6) standard', 'N(0, 6) modified', 'N(0, 18) standard', 'N(0, 18) modified', 'Location', 'southeast');
+plot([4, 4], [0, 1], 'r--')
+plot([8, 8], [0, 1], 'r--')
+plot([12, 12], [0, 1], 'r--')
+plot([16, 16], [0, 1], 'r--')
+text(2.3, 0.8, 'UP')
+text(5.5, 0.8, 'DOWN')
+text(9.5, 0.8, 'LEFT')
+text(13.5, 0.8, 'RIGHT')
 
 %% Evaluate Sequence 2
 load Sequence2Homographies
@@ -58,8 +65,10 @@ I1 = single(rgb2gray(I1));
 
 figure(2); hold on; grid on;
 title('Accuracy of SIFT in Seq. 2');
-xlabel('Sequence'); ylabel('Percentage of correct matches');
-xlim([1 size(Sequence3Homographies, 2)]); ylim([0.7 1]);
+xlabel('Zoom'); ylabel('Percentage of correct matches');
+xlim([1 size(Sequence2Homographies, 2)]); ylim([0.7 1]);
+set(gca, 'xTick', 1:9);
+set(gca, 'xTickLabel', {'110%','115%','120%','125%', '130%', '135%', '140%', '145%', '150%'});
 
 for noise = 1 : length(noises)
     results = zeros(size(Sequence2Homographies, 2), 1);
@@ -80,7 +89,7 @@ for noise = 1 : length(noises)
     plot(1:size(Sequence2Homographies, 2), results(:, 1), style_1);
     plot(1:size(Sequence2Homographies, 2), results(:, 2), style_2);
 end
-legend('No noise', 'N(0, 3)', 'N(0, 6)', 'N(0, 18)', 'Location', 'southeast');
+legend('No noise standard', 'No noise modified', 'N(0, 3) standard', 'N(0, 3) modified', 'N(0, 6) standard', 'N(0, 6) modified', 'N(0, 18) standard', 'N(0, 18) modified', 'Location', 'southeast');
 
 %% Evaluate sequence 3
 load Sequence3Homographies
@@ -90,8 +99,10 @@ I1 = single(rgb2gray(I1));
 
 figure(3); hold on; grid on;
 title('Accuracy of SIFT in Seq. 3');
-xlabel('Sequence'); ylabel('Percentage of correct matches');
+xlabel('Rotation angle'); ylabel('Percentage of correct matches');
 xlim([1 size(Sequence3Homographies, 2)]); ylim([0.7 1]);
+set(gca, 'xTick', 1:18);
+set(gca, 'xTickLabel', [-45:5:-5, 5:5:45]);
 
 for noise = 1 : length(noises)
     results = zeros(size(Sequence3Homographies, 2), 1);
@@ -112,4 +123,4 @@ for noise = 1 : length(noises)
     plot(1:size(Sequence3Homographies, 2), results(:, 1), style_1);
     plot(1:size(Sequence3Homographies, 2), results(:, 2), style_2);
 end
-legend('No noise', 'N(0, 3)', 'N(0, 6)', 'N(0, 18)', 'Location', 'southeast');
+legend('No noise standard', 'No noise modified', 'N(0, 3) standard', 'N(0, 3) modified', 'N(0, 6) standard', 'N(0, 6) modified', 'N(0, 18) standard', 'N(0, 18) modified', 'Location', 'southeast');
